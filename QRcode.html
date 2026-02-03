@@ -12,20 +12,27 @@ Link to open our page :-
 
 https://fantastic-tanuki-e56b3a.netlify.app/qrcode
 -->
-   <script>
-    const speakMessage = () => {
-        // Only run if not already speaking
-        if (!window.speechSynthesis.speaking) {
-            const msg = new SpeechSynthesisUtterance(
-                "ScreenBuddy is an AI-powered desktop assistant that understands your live screen context. Unlike traditional chatbots, Screen Buddy operates alongside you, observing your screen activity to provide real-time, step-by-step guidance."
-            );
-            window.speechSynthesis.speak(msg);
-        }
-    };
+<script>
+    function startSpeaking() {
+        // 1. Create the message
+        const text = "ScreenBuddy is an AI-powered desktop assistant that understands your live screen context. Unlike traditional chatbots, Screen Buddy operates alongside you, observing your screen activity to provide real-time, step-by-step guidance.";
+        const msg = new SpeechSynthesisUtterance(text);
+        
+        // 2. Fix for Mobile: Force a language and voice check
+        msg.lang = 'en-US';
+        msg.rate = 1.0;
 
-    // This triggers the sound the moment they touch the screen
-    window.addEventListener('touchstart', speakMessage, { once: true });
-    window.addEventListener('click', speakMessage, { once: true });
+        // 3. Cancel any previous attempts and speak
+        window.speechSynthesis.cancel(); 
+        window.speechSynthesis.speak(msg);
+    }
+
+    // This "unlocks" the audio engine on the first tap/touch
+    window.addEventListener('click', startSpeaking, { once: true });
+    window.addEventListener('touchstart', startSpeaking, { once: true });
+
+    // Technical fix: Some mobile browsers need the voices to be "primed"
+    window.speechSynthesis.getVoices();
 </script>
 </body>
 </html>
