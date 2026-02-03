@@ -7,13 +7,25 @@
 </head>
 <body>
     <img src="qr.jpeg" />
+<!--
+Link to open our page :-    
 
-    <script>
-    const msg = new SpeechSynthesisUtterance(
-        "ScreenBuddy is an AI-powered desktop assistant that understands your live screen context. Unlike traditional chatbots, Screen Buddy operates alongside you, observing your screen activity to provide real-time, step-by-step guidance."
-    );
-    speechSynthesis.speak(msg);
-    </script>
+https://fantastic-tanuki-e56b3a.netlify.app/qrcode
+-->
+   <script>
+    const speakMessage = () => {
+        // Only run if not already speaking
+        if (!window.speechSynthesis.speaking) {
+            const msg = new SpeechSynthesisUtterance(
+                "ScreenBuddy is an AI-powered desktop assistant that understands your live screen context. Unlike traditional chatbots, Screen Buddy operates alongside you, observing your screen activity to provide real-time, step-by-step guidance."
+            );
+            window.speechSynthesis.speak(msg);
+        }
+    };
 
+    // This triggers the sound the moment they touch the screen
+    window.addEventListener('touchstart', speakMessage, { once: true });
+    window.addEventListener('click', speakMessage, { once: true });
+</script>
 </body>
 </html>
